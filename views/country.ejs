@@ -1,0 +1,100 @@
+<%- include("partials/header"); -%> 
+        <section class="container-fluid">
+          <div class="">
+            <div class="main-section">
+              <h1 class="main-title">COVID-19 DASHBOARD</h1>
+              <p class="update">Last Updated:  <%= updatedFormatted  %> </p>
+            </div>
+            
+          </div>
+        </section>
+        <section class="container-fluid">
+          <div class="row justify-content-center">
+              <div class="chartbox" style="width: 90%; height: 70vh;">
+                <h2><%= formattedCountry  %> </h2>
+                <canvas id="myChart"></canvas> 
+              </div>
+          </div>
+          <!-- This section is hidden. It collects data from the API -->
+          <textarea name="" id="caseData" class="hiddenData"><%= caseData  %> </textarea>
+          <textarea name="" id="deathData" class="hiddenData"><%= deathData  %> </textarea>
+          <textarea name="" id="recoveredData" class="hiddenData"><%= recoveredData  %> </textarea>
+          <textarea name="" id="caseLabel" class="hiddenData"><%= caseLabel %></textarea>
+        </section>
+        <%- include("partials/footer"); -%> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+        <script>
+          $(document).ready(function() {
+            var ctx = document.getElementById('myChart').getContext('2d');
+              var cases = $("#caseData").html(); 
+              var deaths = $("#deathData").html(); 
+              var recovered = $("#recoveredData").html(); 
+              var label = $("#caseLabel").html();
+              var caseData = cases.split(',');
+              var deathData = deaths.split(',');
+              var recoveredData = recovered.split(',');
+              var caseLabel = label.split(',');
+              var myChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                  labels: caseLabel, //['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'olle', 'onyx'],
+                  datasets: [
+                    {
+                      label: 'Cases',
+                      data:  caseData, //[12, 19, 3, 5, 2, 3, 6, 8],
+                      backgroundColor: 'rgba(255, 255, 255,0.2)', 
+                      borderColor: '#4c92bb',
+                      borderWidth: 2
+                  },
+                  {
+                      label: 'Deaths',
+                      data:  deathData, //[12, 19, 3, 5, 2, 3, 6, 8],
+                      backgroundColor: 'rgba(255, 255, 255,0.2)', 
+                      borderColor: '#de354c',
+                      borderWidth: 2
+                  },
+                  {
+                      label: 'Recovered',
+                      data:  recoveredData, //[12, 19, 3, 5, 2, 3, 6, 8],
+                      backgroundColor: 'rgba(255, 255, 255,0.2)', 
+                      borderColor: '#deb135',
+                      borderWidth: 2
+                  }
+      
+                ]
+              },
+              options: {
+                  scales: {
+                      xAxes:[{
+                            ticks:{
+                                display: true,
+                                autoSkip: true,
+                                maxTicksLimit: 10,
+                                maxRotation: 90,
+                                minRotation: 90
+                            },
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Dates'
+                            }
+                      }],
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero: true
+                          },
+                          scaleLabel: {
+                              display: true,
+                              labelString: 'Population'
+                          }
+                      }]
+                  },
+                  responsive: true,
+                  maintainAspectRatio: false
+              }
+          });
+          });
+          
+          </script>
+
+</body>
+</html>

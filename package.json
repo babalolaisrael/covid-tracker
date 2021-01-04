@@ -1,0 +1,20 @@
+{
+  "name": "corometer",
+  "version": "1.0.0",
+  "description": "A covid-19 dashboard showing world data, and developed using nodeJS",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "chart.js": "^2.9.4",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "moment": "^2.29.1",
+    "novelcovid": "^3.0.0"
+  }
+}

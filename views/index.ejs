@@ -1,0 +1,92 @@
+<%- include("partials/header"); -%>
+<main role="main" class="container-fluid">
+        <section class="container-fluid">
+            <div class="main-section">
+              <div class="video__icon">
+                <div class="circle--outer"></div>
+                <div class="circle--inner"></div>
+                <p>LIVE</p>
+              </div>
+                <h1 class="main-title">COVID-19 DASHBOARD</h1>
+                <p class="update">Last Updated: <%= updatedFormatted %> </p>
+            </div>
+        </section>
+            <section class="container-fluid">
+                  <div class="row">
+                      <div class="case-card shadow col-lg-3 col-md-6">
+                        <div class="total-cases">
+                          <h5 class="card-title">Confirmed<br/>
+                            <i class="fas fa-lungs-virus card-icon"></i></h5>                     
+                          <p class="card-text"><%= cases %></p>
+                        </div>
+                      </div>
+                      <div class="case-card shadow col-lg-3 col-md-6">
+                        <div class="total-deaths">
+                          <h5 class="card-title">Deaths<br/>                            
+                            <i class="fas fa-viruses card-icon"></i></h5>
+                          <p class="card-text"><%= deaths %></p>
+                        </div>
+                      </div>
+  
+                      <div class="case-card shadow col-lg-3 col-md-6">
+                        <div class="total-recovered">
+                          <h5 class="card-title">Recovered<br/>
+                            <i class="fas fa-heartbeat card-icon"></i></h5>
+                          <p class="card-text"><%= recovered %></p>
+                        </div>
+                      </div>
+  
+                      <div class="case-card shadow col-lg-3 col-md-6">
+                        <div class="total-active">
+                          <h5 class="card-title">Active<br/>                           
+                            <i class="fas fa-procedures card-icon"></i></h5>
+                          <p class="card-text"><%= active %></p>
+                        </div>
+                      </div>
+                  </div>
+             </section>
+             <section class="container-fluid">
+              <table id= "myTable" class="table hover table-bordered myTable dt-responsive nowrap"> 
+                <thead>
+                  <tr class="heading">
+                    <th class="">Country/State</th> 
+                    <th>Total<br/> Cases</th> 
+                    <th>New <br/>Cases</th>
+                    <th>Total <br/> Deaths</th>
+                    <th>New <br/> Deaths</th>
+                    <th>Recovered <br/>Cases</th> 
+                    <th>Active<br/>Cases</th> 
+                    <th>Critical<br/>Cases</th>
+                    <th>Total<br/> Cases/<br/>1M Pop.</th>
+                    <th>Total<br/>Deaths/<br/>1M Pop.</th>                                        
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- This scripts sets delimiters for numbers using commas -->
+                  <% function thousands_separators(num){ %> 
+                    <% var num_parts = num.toString().split("."); %> 
+                    <% num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ","); %> 
+                    <% return num_parts.join("."); %> 
+                  <% } %> 
+                  <% for (const country of countries) { %>
+                    <!-- Cycles through the countries and obtains the various datasets -->
+                    <tr>
+                        <td class="country" style="width: max-content;"><img class="flag rounded" src="<%= country.countryInfo.flag %>"/><span> <a href="/history/<%= country.country %>" id="<%= country.country %>"><%= country.country %></a></span></td>
+                        <td><%= thousands_separators(country.cases)  %></td>
+                        <td><%= thousands_separators(country.todayCases)  %></td>
+                        <td class=""><%= thousands_separators(country.deaths) %></td>
+                        <td class="death"><%= thousands_separators(country.todayDeaths) %></td>
+                        <td class="recovered"><%= thousands_separators(country.recovered)  %></td>
+                        <td class="actives"><%= thousands_separators(country.active) %></td>
+                        <td class=""><%= thousands_separators(country.critical)  %></td>
+                        <td class=""><%= thousands_separators(country.casesPerOneMillion)  %></td>
+                        <td class=""><%= thousands_separators(country.deathsPerOneMillion)  %></td>            
+                    </tr>
+                    <% } %>  
+              </tbody>
+              </table>
+             </section>
+</main>             
+<%- include("partials/footer"); -%>         
+</body>
+</html>
